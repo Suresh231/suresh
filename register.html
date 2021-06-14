@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Insert data in MySQL database using Ajax</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+	@media  only screen and  (min-width:280px) and (max-width:653px)
+	{
+		#fupForm
+	{
+		background: linear-gradient(to top, #00cc99 0%, #33cc33 100%);
+		padding:20px;
+		margin-top:50px;
+	}
+	body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 2.5;
+    color: #333;
+    background-color: #fff;
+}
+	}
+	@media  only screen and  (min-width:360px) and (max-width:640px)
+	{
+		.hii {
+    background-image: url(https://www.bing.com/images/blob?bcid=S85U5HXrxM8CFpn9zn.NO.OhNobt.....1k);
+    background-repeat: no-repeat;
+    background-size: cover;
+			background-attachment:fixed;
+	}
+	}
+		
+	body
+	{
+		background-image:url("https://www.bing.com/images/blob?bcid=S85U5HXrxM8CFpn9zn.NO.OhNobt.....1k" );
+		background-repeat: no-repeat;
+		background-size:cover;
+		height:100vh;
+	}
+	#fupForm
+	{
+		background: linear-gradient(to top, #00cc99 0%, #33cc33 100%);
+		padding:20PX;
+	}
+	@keyframes example {
+  0%   {   background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);}
+  25%  {background: linear-gradient(to bottom, #666699 0%, #ffffff 100%);;}
+  50%  {       background: linear-gradient(to bottom, #336699 0%, #999966 100%);}
+  100% { background: linear-gradient(to bottom, #336699 0%, #ffffff 100%);}
+}
+
+/* The element to apply the animation to */
+div.jumbotron.text-center{
+  
+  background-color: red;
+  animation-name: example;
+  animation-duration: 4s;
+  animation-iteration-count:infinite;
+}
+label:hover{
+	color:darkorange;
+}
+</style>
+		
+
+</head>
+<body >
+<div class="container">
+	<div class="alert alert-success alert-dismissible" id="success" style="display:none;">
+	  <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+	</div>
+	
+	
+	
+
+		<div class="row">
+			<div class="col-md-12 ">
+
+			
+					<div class="jumbotron text-center">
+					REGISTRATION FORM
+					
+					</div>
+			
+		<div class="col-md-3"></div>
+	
+	
+	<div class="col-md-6">
+	<form id="fupForm" name="form1" method="post" onsubmit="return validation()">
+	
+		<div class="form-group">
+			<label class="glyphicon glyphicon-user" for="name" ><b>Name:</b></label>
+			
+			<input type="text" class="form-control" id="name" onkeyup="username()" maxlength="50" placeholder="Name" name="name" required>
+		</div>
+		<div class="form-group">
+			<label class="glyphicon glyphicon-envelope"><b>Email:</b></label>
+			
+			<input  type="email" class="form-control" id="email" maxlength="100" placeholder="Email" name="email">
+		</div>
+		<div class="form-group">
+			<label class="glyphicon glyphicon-font"><b>Password:</b></label>
+			<input type="password" class="form-control" id="password" minlength="8" placeholder="Password" name="password">
+		</div>
+		<div class="form-group">
+			<label class="glyphicon glyphicon-font"><b>ConfirmPassword:</b></label>
+			<input type="password" class="form-control" id="confirm_password" minlength="8" placeholder="ConfirmPassword" name="confirm_password">
+		</div>
+		
+		<div class="form-group">
+			<label class="	glyphicon glyphicon-phone" ><b>Phone:</b></label>
+			<input type="text"  maxlength="10" class="form-control" id="phone" placeholder="Phone" name="phone" >
+		</div>
+		<div class="form-group">
+			<label class="	glyphicon glyphicon-pencil"><b>Address:</b></label>
+			<textarea type="text" class="form-control" id="address" placeholder="Address"  maxlength="100" name="address"></textarea>
+		</div>
+
+		<div class="form-group" >
+			<label class="glyphicon glyphicon-home"><b>City:</b></label>
+			<select name="city" id="city" class="form-control">
+				<option value="">Select</option>
+				<option value="Delhi">Delhi</option>
+				<option value="Mumbai">Mumbai</option>
+				<option value="Pune">Pune</option>
+			</select>
+		</div>
+		
+	<div class="form-group">
+		<div class="col-md-12 text-center">
+			<div class="row">
+				
+				<div class="col-md-4">
+				
+				</div>
+				
+				<div class="col-md-4">
+					
+							<input type="button" name="save" class="btn btn-primary text-center" class="form-control" value="Register" id="butsave">
+						
+
+				</div>
+				
+				<div class="col-md-4"></div>
+				
+			</div>
+		</div>
+	</div>
+		<div class="form-group text-center">
+			<br>
+				<p>Already have an account? <a href="login1.html">Sign in</a></p>
+			
+		</div>
+
+		
+
+
+
+</form>
+</div>
+
+	<div class="col-md-3"></div>
+		
+</div>
+</div>
+
+
+
+<script>
+$(document).ready(function() {
+	$('#butsave').on('click', function() {
+		$("#butsave").attr("disabled", "disabled");
+		var name = $('#name').val();
+		var email = $('#email').val();
+		var password = $('#password').val();
+		var confirm_password = $('#confirm_password').val();
+		var phone = $('#phone').val();
+		var address= $('#address').val();
+		var city = $('#city').val();
+		if(name!="" && email!="" && phone!="" && city!=""){
+			$.ajax({
+				url: "register.php?id",
+				type: "POST",
+				data: {
+					name: name,
+					email: email,
+					password:password,
+					confirm_password:confirm_password,
+					phone: phone,
+					address:address,
+					city: city				
+				},
+				cache: false,
+				success: function(dataResult){
+					var dataResult = JSON.parse(dataResult);
+					if(dataResult.statusCode==200){
+						$("#butsave").removeAttr("disabled");
+						$('#fupForm').find('input:text').val('');
+						$("#success").show();
+						$('#success').html('Data added successfully !'); 						
+					}
+					else if(dataResult.statusCode==201){
+					   alert("Error occured !");
+					}
+					
+				}
+			});
+		}
+		else{
+			alert('Please fill all the field !');
+		}
+	});
+});
+</script>
+<script>
+	function username()
+	{
+		var a = document.getElementById('name').value;
+		var b=/^[A-Za-z ]{3,30}$/;
+		
+	}
+</script>
+</body>
+</html>
+  
+ 
